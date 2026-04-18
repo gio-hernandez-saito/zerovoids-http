@@ -30,11 +30,6 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
-      # npm 11+ required for Trusted Publishing OIDC exchange. Node 22 LTS
-      # ships npm 10.x which signs provenance but fails the registry PUT.
-      - name: Upgrade npm to latest (required for Trusted Publishing)
-        run: npm install -g npm@latest
-
       - run: pnpm install --frozen-lockfile
 
       - name: Build all packages
