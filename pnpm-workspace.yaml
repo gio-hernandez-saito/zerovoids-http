@@ -6,16 +6,16 @@ catalog:
   # Runtime peers (kept as peerDependencies in packages — pinned here for dev)
   "@tanstack/react-query": ^5.59.0
   swr: ^2.2.5
-  ky: ^1.7.2
+  ky: ^2.0.1
   axios: ^1.7.7
-  react: ^18.3.1
+  react: ^19.0.0
 
   # Schema (Standard Schema peer)
-  zod: ^3.23.8
+  zod: ^4.0.0
 
   # Build / test / lint
   typescript: ^5.6.3
-  vite: ^5.4.10
+  vite: ^8.0.0
   vite-plugin-dts: ^4.3.0
   vitest: ^2.1.4
   "@vitest/coverage-v8": ^2.1.4
@@ -25,13 +25,13 @@ catalog:
   husky: ^9.1.6
   lint-staged: ^15.2.10
   "@types/node": ^22.8.7
-  "size-limit": ^11.1.6
-  "@size-limit/preset-small-lib": ^11.1.6
+  "size-limit": ^12.1.0
+  "@size-limit/preset-small-lib": ^12.1.0
   "expect-type": ^1.1.0
 
   # Hook integration testing
   "@testing-library/react": ^16.0.1
-  "react-dom": ^18.3.1
-  "@types/react": ^18.3.12
-  "@types/react-dom": ^18.3.1
-  jsdom: ^25.0.1
+  "react-dom": ^19.0.0
+  "@types/react": ^19.0.0
+  "@types/react-dom": ^19.0.0
+  jsdom: ^29.0.2

@@ -9,6 +9,7 @@
 ## [Unreleased]
 
 ### Added
+- **Ecosystem major bump (2026-04-19)** — React 19 / Zod 4 / ky 2 / Next 16 / Vite 8 / size-limit 12 / jsdom 29 / @vitejs/plugin-react 6 전부 업데이트. 소스 변경 없이 카탈로그 bump 만으로 통과 (peer-only 설계 검증). Core 번들 3.52 → **3.38 KB brotli**. 211 tests green.
 - **Pre-publish 마무리 (2026-04-19)** — ADR을 `docs/adrs/` → `website/adrs/` 이동 (공개 문서화), `examples/node-cli` / `examples/vite-swr` 실구현, react-query/swr renderHook 통합 테스트 (`@testing-library/react` + jsdom), 패키지 README 8종 전체 현행화, `.omc/` gitignore 추가, `.changeset/initial-pipeline-publish.md` 로 **0.1.0 minor bump** 엔트리. **총 211 tests** (Phase 4 207 → +4).
 - 모노레포 초기 스캐폴딩: pnpm workspace + Turborepo + Changesets + Biome + Vitest
 - 7개 패키지 뼈대 (`@zerovoids/http`, `-react-query`, `-swr`, `-transport-ky`, `-transport-axios`, `-auth`, `-mock`)
