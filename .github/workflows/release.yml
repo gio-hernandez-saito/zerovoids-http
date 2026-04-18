@@ -46,5 +46,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          # Provenance temporarily disabled while diagnosing initial publish auth
-          # NPM_CONFIG_PROVENANCE: true
+          NPM_CONFIG_PROVENANCE: true

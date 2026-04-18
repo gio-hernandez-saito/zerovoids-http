@@ -47,7 +47,7 @@
 			"ignore": ["@zerovoids/http"]
 		}
 	],
-	"publishConfig": { "access": "public" },
+	"publishConfig": { "access": "public", "provenance": true },
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/gio-hernandez-saito/zerovoids-http.git",
