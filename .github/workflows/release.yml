@@ -45,5 +45,6 @@ jobs:
           title: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # NPM_TOKEN removed — Trusted Publishing (OIDC) authenticates via
+          # id-token permission. Setting NPM_TOKEN would override OIDC.
           NPM_CONFIG_PROVENANCE: true
