@@ -1,6 +1,6 @@
 {
 	"name": "@zerovoids/http-mock",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Mock Transport and test helpers for @zerovoids/http",
 	"author": "zerovoids",
 	"license": "MIT",
@@ -47,7 +47,10 @@
 			"ignore": ["@zerovoids/http"]
 		}
 	],
-	"publishConfig": { "access": "public", "provenance": true },
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/gio-hernandez-saito/zerovoids-http.git",
