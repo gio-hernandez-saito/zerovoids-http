@@ -1,6 +1,6 @@
 {
 	"name": "@zerovoids/http-react-query",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "TanStack Query adapter for @zerovoids/http",
 	"author": "zerovoids",
 	"license": "MIT",
