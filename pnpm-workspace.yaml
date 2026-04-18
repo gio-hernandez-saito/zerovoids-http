@@ -26,7 +26,7 @@ catalog:
   lint-staged: ^15.2.10
   "@types/node": ^22.8.7
   "size-limit": ^11.1.6
-  "@size-limit/preset-small-lib": ^11.1.6
+  "@size-limit/preset-small-lib": ^12.1.0
   "expect-type": ^1.1.0
 
   # Hook integration testing
