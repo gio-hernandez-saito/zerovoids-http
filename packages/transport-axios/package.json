@@ -1,0 +1,58 @@
+{
+	"name": "@zerovoids/http-transport-axios",
+	"version": "0.0.0",
+	"description": "axios-based Transport for @zerovoids/http",
+	"author": "zerovoids",
+	"license": "MIT",
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"files": ["dist", "README.md", "LICENSE"],
+	"sideEffects": false,
+	"scripts": {
+		"build": "vite build",
+		"dev": "vite build --watch",
+		"type-check": "tsc --noEmit",
+		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
+		"size": "size-limit",
+		"clean": "rm -rf dist coverage .turbo"
+	},
+	"peerDependencies": {
+		"@zerovoids/http": "workspace:*",
+		"axios": ">=1"
+	},
+	"devDependencies": {
+		"@size-limit/preset-small-lib": "catalog:",
+		"@vitest/coverage-v8": "catalog:",
+		"@zerovoids/http": "workspace:*",
+		"axios": "catalog:",
+		"size-limit": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-dts": "catalog:",
+		"vitest": "catalog:"
+	},
+	"size-limit": [
+		{
+			"name": "transport-axios (ESM, min+br, peer-excluded)",
+			"path": "dist/index.js",
+			"limit": "2 KB",
+			"ignore": ["axios", "@zerovoids/http"]
+		}
+	],
+	"publishConfig": { "access": "public", "provenance": true },
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/gio-hernandez-saito/zerovoids-http.git",
+		"directory": "packages/transport-axios"
+	}
+}

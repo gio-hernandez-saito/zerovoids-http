@@ -1,0 +1,48 @@
+name: Examples smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/**"
+      - "examples/**"
+      - ".github/workflows/examples-smoke.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "packages/**"
+      - "examples/**"
+      - ".github/workflows/examples-smoke.yml"
+
+concurrency:
+  group: examples-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: ${{ matrix.example }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        example:
+          - nextjs-react-query
+          - vite-swr
+          - node-cli
+          - multi-vendor
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build workspace packages
+        run: pnpm build --filter=./packages/*
+      - name: Build example
+        run: pnpm --filter "./examples/${{ matrix.example }}" build
+        if: hashFiles(format('examples/{0}/package.json', matrix.example)) != ''

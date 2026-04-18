@@ -1,0 +1,42 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    versioning-strategy: "increase-if-necessary"
+    groups:
+      dev-tooling:
+        patterns:
+          - "@biomejs/*"
+          - "@changesets/*"
+          - "turbo"
+          - "husky"
+          - "lint-staged"
+          - "vitest"
+          - "@vitest/*"
+          - "vite"
+          - "vite-plugin-dts"
+          - "typescript"
+          - "@types/*"
+      peers:
+        patterns:
+          - "@tanstack/react-query"
+          - "swr"
+          - "ky"
+          - "axios"
+          - "zod"
+        update-types: [minor, patch]
+    ignore:
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      actions:
+        patterns: ["*"]

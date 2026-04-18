@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/gio-hernandez-saito/zerovoids-http/security/advisories/new
+    about: 보안 이슈는 공개 트래커 대신 Private Vulnerability Reporting으로 보고해주세요.
+  - name: Discussion
+    url: https://github.com/gio-hernandez-saito/zerovoids-http/discussions
+    about: 질문, 아이디어, 일반 피드백은 Discussions에서 나눠요.

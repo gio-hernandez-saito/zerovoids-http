@@ -1,0 +1,69 @@
+name: Bug report
+description: 재현 가능한 버그를 신고합니다.
+title: "[Bug]: "
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        버그 리포트 감사합니다. 먼저 [기존 이슈](https://github.com/gio-hernandez-saito/zerovoids-http/issues?q=is%3Aissue)에 동일 건이 있는지 확인 부탁드립니다.
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Affected package
+      options:
+        - "@zerovoids/http (core)"
+        - "@zerovoids/http-react-query"
+        - "@zerovoids/http-swr"
+        - "@zerovoids/http-transport-ky"
+        - "@zerovoids/http-transport-axios"
+        - "@zerovoids/http-auth"
+        - "@zerovoids/http-mock"
+        - Other / Unsure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: runtime
+    attributes:
+      label: Runtime
+      placeholder: "Node 20.15.0 / Chrome 130 / Bun 1.1 / Deno 2.0 ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: 최소 재현 예제(코드 or 리포지토리 링크)를 제공해주세요.
+      render: ts
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context

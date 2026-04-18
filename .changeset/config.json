@@ -1,0 +1,21 @@
+{
+	"$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+	"changelog": "@changesets/cli/changelog",
+	"commit": false,
+	"fixed": [
+		[
+			"@zerovoids/http",
+			"@zerovoids/http-react-query",
+			"@zerovoids/http-swr",
+			"@zerovoids/http-transport-ky",
+			"@zerovoids/http-transport-axios",
+			"@zerovoids/http-auth",
+			"@zerovoids/http-mock"
+		]
+	],
+	"linked": [],
+	"access": "public",
+	"baseBranch": "main",
+	"updateInternalDependencies": "patch",
+	"ignore": []
+}

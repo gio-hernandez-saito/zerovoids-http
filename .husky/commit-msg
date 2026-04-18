@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+# 최소 커밋 메시지 검사: Conventional Commits 권장 (강제 아님)
+msg_file="$1"
+msg=$(head -n1 "$msg_file")
+
+if ! echo "$msg" | grep -qE '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?(!)?: .+'; then
+  echo ""
+  echo "⚠️  Commit message does not follow Conventional Commits."
+  echo "   Expected:  <type>(<scope>): <description>"
+  echo "   Got:       $msg"
+  echo ""
+  echo "   이 경고는 현재 차단하지 않습니다 (권장만)."
+  echo ""
+fi

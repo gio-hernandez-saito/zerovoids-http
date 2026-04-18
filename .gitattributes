@@ -1,0 +1,15 @@
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+
+pnpm-lock.yaml linguist-generated=true merge=ours
+*.snap linguist-generated=true
+CHANGELOG.md merge=union

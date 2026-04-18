@@ -1,0 +1,66 @@
+coverage:
+  precision: 2
+  round: down
+  range: 70..100
+  status:
+    project:
+      core:
+        target: 85%
+        threshold: 1%
+        flags: [core]
+      auth:
+        target: 90%
+        threshold: 1%
+        flags: [auth]
+      adapters:
+        target: 80%
+        threshold: 1%
+        flags: [react-query, swr]
+      transports:
+        target: 80%
+        threshold: 1%
+        flags: [transport-ky, transport-axios]
+      default:
+        target: 80%
+        threshold: 1%
+    patch:
+      default:
+        target: 80%
+        threshold: 1%
+
+flags:
+  core:
+    paths: [packages/core]
+    carryforward: true
+  react-query:
+    paths: [packages/react-query]
+    carryforward: true
+  swr:
+    paths: [packages/swr]
+    carryforward: true
+  transport-ky:
+    paths: [packages/transport-ky]
+    carryforward: true
+  transport-axios:
+    paths: [packages/transport-axios]
+    carryforward: true
+  auth:
+    paths: [packages/auth]
+    carryforward: true
+  mock:
+    paths: [packages/mock]
+    carryforward: true
+
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: false
+
+ignore:
+  - "**/*.test.ts"
+  - "**/*.spec.ts"
+  - "**/dist/**"
+  - "**/node_modules/**"
+  - "**/index.ts"
+  - "examples/**"
+  - "docs/**"

@@ -1,0 +1,52 @@
+{
+	"name": "@zerovoids/http",
+	"version": "0.0.0",
+	"private": true,
+	"description": "Vendor-normalizing multi-adapter HTTP client — monorepo root",
+	"author": "zerovoids",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/gio-hernandez-saito/zerovoids-http.git"
+	},
+	"homepage": "https://github.com/gio-hernandez-saito/zerovoids-http#readme",
+	"bugs": {
+		"url": "https://github.com/gio-hernandez-saito/zerovoids-http/issues"
+	},
+	"type": "module",
+	"packageManager": "pnpm@10.17.1",
+	"engines": {
+		"node": ">=20.0.0",
+		"pnpm": ">=10.0.0"
+	},
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"test": "turbo run test",
+		"test:coverage": "turbo run test:coverage",
+		"type-check": "turbo run type-check",
+		"lint": "biome check .",
+		"format": "biome format --write .",
+		"check": "biome check --write .",
+		"ci:check": "biome ci .",
+		"ci:verify": "pnpm run ci:check && turbo run type-check build test",
+		"size": "turbo run size",
+		"changeset": "changeset",
+		"version-packages": "changeset version && pnpm install --lockfile-only",
+		"release": "turbo run build --filter=./packages/* && changeset publish",
+		"prepare": "husky",
+		"clean": "turbo run clean && rm -rf node_modules/.cache .turbo"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "catalog:",
+		"@changesets/cli": "catalog:",
+		"@types/node": "catalog:",
+		"husky": "catalog:",
+		"lint-staged": "catalog:",
+		"turbo": "catalog:",
+		"typescript": "catalog:"
+	},
+	"lint-staged": {
+		"*.{ts,tsx,js,jsx,json,jsonc}": "biome check --write --no-errors-on-unmatched"
+	}
+}
