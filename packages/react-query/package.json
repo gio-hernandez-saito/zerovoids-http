@@ -1,6 +1,6 @@
 {
 	"name": "@zerovoids/http-react-query",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "TanStack Query adapter for @zerovoids/http",
 	"author": "zerovoids",
 	"license": "MIT",
@@ -56,7 +56,10 @@
 			"ignore": ["@tanstack/react-query", "react", "@zerovoids/http"]
 		}
 	],
-	"publishConfig": { "access": "public", "provenance": true },
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/gio-hernandez-saito/zerovoids-http.git",
