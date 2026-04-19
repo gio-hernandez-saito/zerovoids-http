@@ -3,6 +3,17 @@
 	"version": "0.1.1",
 	"private": true,
 	"description": "Internal benchmark harness for @zerovoids/http — NOT published.",
+	"author": "zerovoids",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/gio-hernandez-saito/zerovoids-http.git",
+		"directory": "packages/bench"
+	},
+	"homepage": "https://github.com/gio-hernandez-saito/zerovoids-http/tree/main/packages/bench#readme",
+	"bugs": {
+		"url": "https://github.com/gio-hernandez-saito/zerovoids-http/issues"
+	},
 	"type": "module",
 	"scripts": {
 		"bench": "vitest bench --run",

@@ -4,6 +4,10 @@
 	"description": "Mock Transport and test helpers for @zerovoids/http",
 	"author": "zerovoids",
 	"license": "MIT",
+	"homepage": "https://github.com/gio-hernandez-saito/zerovoids-http/tree/main/packages/mock#readme",
+	"bugs": {
+		"url": "https://github.com/gio-hernandez-saito/zerovoids-http/issues"
+	},
 	"type": "module",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",

@@ -1,23 +1,39 @@
+<div align="center">
+
 # @zerovoids/http-auth
 
-Auth recipes for [@zerovoids/http](../core). Zero peer dependency.
+**Auth recipes — bearer refresh · XSRF · OAuth PKCE**
 
-- `bearerWithRefresh` — single-flight token refresh (동시 401 일괄 처리, race 검출)
-- `xsrf` — cookie → header 자동 동기화 (쓰기 동사만)
-- `oauthPKCE` helpers — RFC 7636 S256
-- `memoryStorage` / `localStorageStorage` — SSR 안전한 token storage abstraction
+[![npm](https://img.shields.io/npm/v/@zerovoids/http-auth.svg)](https://www.npmjs.com/package/@zerovoids/http-auth)
+[![npm downloads](https://img.shields.io/npm/dm/@zerovoids/http-auth.svg)](https://www.npmjs.com/package/@zerovoids/http-auth)
+[![license](https://img.shields.io/npm/l/@zerovoids/http-auth.svg)](https://github.com/gio-hernandez-saito/zerovoids-http/blob/main/LICENSE)
+[![types](https://img.shields.io/npm/types/@zerovoids/http-auth.svg)](https://www.npmjs.com/package/@zerovoids/http-auth)
 
-커버리지: **99% stmt / 98% branch / 100% func** (목표 90% 초과).
+[Install](#-install) · [bearerWithRefresh](#-bearerwithrefresh) · [xsrf](#-xsrf) · [Token storage](#-token-storage) · [PKCE](#-oauth-pkce) · [메인 리포](../..)
 
-## Install
+</div>
+
+---
+
+## 소개
+
+`@zerovoids/http` 를 위한 인증 유틸. Zero peer dependency, **커버리지 99%**, 보안 민감 시나리오에 대응하도록 설계.
+
+- 🔄 **`bearerWithRefresh`** — single-flight token refresh (동시 401 일괄 처리 + race 검출)
+- 🛡 **`xsrf`** — cookie → header 자동 동기화 (쓰기 동사만)
+- 🔑 **`oauthPKCE`** — RFC 7636 S256 challenge/verifier
+- 💾 **`memoryStorage` / `localStorageStorage`** — SSR 안전 token abstraction
+- 📋 [위협 모델 문서](./THREAT_MODEL.md) — 6 in-scope / 4 out-of-scope
+
+## 📦 Install
 
 ```bash
 pnpm add @zerovoids/http-auth @zerovoids/http
 ```
 
-## `bearerWithRefresh` — Transport wrapper
+## 🔄 bearerWithRefresh
 
-Plugin 이 아니라 **transport wrapper** 로 제공됩니다 — Plugin API는 "401 응답을 보고 refresh 후 같은 요청을 재시도" 를 표현할 수 없어서 (ADR [0003](../../website/adrs/0003-bearer-transport-wrapper.md)).
+Plugin 이 아니라 **transport wrapper** 로 제공됩니다 — Plugin API 는 "401 응답을 보고 refresh 후 같은 요청을 재시도" 를 표현할 수 없어서 (ADR [0003](../../website/adrs/0003-bearer-transport-wrapper.md)).
 
 ```ts
 import { createClient, fetchTransport } from "@zerovoids/http";
@@ -40,13 +56,13 @@ const api = createClient({
 });
 ```
 
-**Single-flight 보장**: 동시 401이 N건 발생해도 `refresh()` 는 **정확히 1회** 실행. 전부 같은 새 토큰을 받고 각자 재시도. 동일 토큰 기반 재시도가 또 401이 되면 (refresh 도중 레이스) 그 요청만 정상 401로 반환되어 무한 루프 차단.
+### Single-flight 보장
 
-`refresh()` 가 `null` 반환 또는 throw → 원본 401을 그대로 반환해 소비자가 로그아웃 처리.
+동시 401 이 N건 발생해도 `refresh()` 는 **정확히 1회** 실행. 전부 같은 새 토큰을 받고 각자 재시도. 동일 토큰 기반 재시도가 또 401 이면 (refresh 도중 race) 그 요청만 정상 401 로 반환되어 무한 루프 차단.
 
-**위협 모델**: [`THREAT_MODEL.md`](./THREAT_MODEL.md) — 6 in-scope (single-flight · race · refresh null/throw · XSRF bypass · cross-origin Authorization) + 4 out-of-scope.
+`refresh()` 가 `null` 반환 또는 throw → 원본 401 을 그대로 반환해 소비자가 로그아웃 처리.
 
-## `xsrf` — Plugin
+## 🛡 xsrf
 
 ```ts
 import { xsrf } from "@zerovoids/http-auth";
@@ -64,18 +80,18 @@ createClient({
 - 소비자가 이미 해당 헤더를 넘겼다면 보존
 - `defaultCookieReader` 는 `document.cookie` 를 파싱. SSR 에선 자동 no-op
 
-## Token storage
+## 💾 Token storage
 
 ```ts
 import { memoryStorage, localStorageStorage } from "@zerovoids/http-auth";
 
-memoryStorage();                     // 프로세스 내 메모리 (SSR 기본)
-localStorageStorage("access_token"); // globalThis.localStorage 폴백 → memory
+memoryStorage();                      // 프로세스 내 메모리 (SSR 기본)
+localStorageStorage("access_token");  // globalThis.localStorage 폴백 → memory
 ```
 
 두 storage 모두 `{ get(), set(v), clear() }` shape — 커스텀 storage (sessionStorage, secure cookie 등) 도 같은 shape 으로 주입 가능.
 
-## OAuth PKCE helpers (RFC 7636)
+## 🔑 OAuth PKCE
 
 ```ts
 import { createPkceChallenge } from "@zerovoids/http-auth";
@@ -93,6 +109,23 @@ const { verifier, challenge, method } = await createPkceChallenge();
 
 저수준 API: `generateVerifier()` / `deriveChallenge(verifier)`.
 
+## 📊 커버리지 & 품질
+
+```
+stmt  99.09%
+branch  98%
+func   100%
+```
+
+targeted coverage 90% 목표 초과 달성. 28 tests (bearer 12 / xsrf 8 / storage 5 / smoke 3) + PKCE 9 = **37 tests**.
+
+## 🔗 관련 링크
+
+- [메인 README](../..) — 전체 생태계 소개
+- [Auth recipes guide](../../website/guides/auth-recipes.md)
+- [THREAT_MODEL](./THREAT_MODEL.md) — 위협 모델
+- [ADR 0003 — bearer transport wrapper](../../website/adrs/0003-bearer-transport-wrapper.md)
+
 ## License
 
-MIT
+MIT © [zerovoids](https://github.com/gio-hernandez-saito)
