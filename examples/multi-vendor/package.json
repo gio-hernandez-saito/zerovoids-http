@@ -1,6 +1,6 @@
 {
 	"name": "example-multi-vendor",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"private": true,
 	"description": "Demonstrates @zerovoids/http composing multiple external APIs with unified NormalizedError",
 	"type": "module",
