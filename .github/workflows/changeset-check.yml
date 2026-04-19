@@ -12,7 +12,11 @@ jobs:
   changeset:
     name: Ensure changeset exists
     runs-on: ubuntu-latest
-    if: "!contains(github.event.pull_request.labels.*.name, 'skip-changeset')"
+    # Skip on the Release PR itself (changesets/action has already consumed
+    # the entries). Skip also when the 'skip-changeset' label is applied.
+    if: |
+      github.head_ref != 'changeset-release/main' &&
+      !contains(github.event.pull_request.labels.*.name, 'skip-changeset')
     steps:
       - uses: actions/checkout@v6
         with:
