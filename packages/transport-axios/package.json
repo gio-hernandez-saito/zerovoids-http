@@ -1,6 +1,6 @@
 {
 	"name": "@zerovoids/http-transport-axios",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "axios-based Transport for @zerovoids/http",
 	"author": "zerovoids",
 	"license": "MIT",

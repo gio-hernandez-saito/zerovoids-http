@@ -1,6 +1,6 @@
 {
 	"name": "@zerovoids/http",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Vendor-normalizing multi-adapter HTTP client — core (zero peer dep)",
 	"author": "zerovoids",
 	"license": "MIT",

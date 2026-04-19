@@ -1,6 +1,6 @@
 {
 	"name": "@zerovoids/http-swr",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "SWR adapter for @zerovoids/http",
 	"author": "zerovoids",
 	"license": "MIT",

@@ -1,6 +1,6 @@
 {
 	"name": "example-node-cli",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"private": true,
 	"description": "Pure Node CLI that fetches a public API through @zerovoids/http + ky transport",
 	"type": "module",
