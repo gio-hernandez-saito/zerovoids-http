@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -49,7 +49,7 @@ jobs:
         node: [22, 24]
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
@@ -58,28 +58,28 @@ jobs:
       - run: pnpm test:coverage
       - name: Upload coverage (core)
         if: matrix.node == 20
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: ./packages/core/coverage/lcov.info
           flags: core
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload coverage (auth)
         if: matrix.node == 20
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: ./packages/auth/coverage/lcov.info
           flags: auth
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload coverage (adapters)
         if: matrix.node == 20
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: ./packages/react-query/coverage/lcov.info,./packages/swr/coverage/lcov.info
           flags: adapters
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload coverage (transports)
         if: matrix.node == 20
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: ./packages/transport-ky/coverage/lcov.info,./packages/transport-axios/coverage/lcov.info
           flags: transports
@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -98,7 +98,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Upload dist artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: packages/*/dist
@@ -110,7 +110,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
