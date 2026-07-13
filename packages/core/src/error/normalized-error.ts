@@ -84,11 +84,12 @@ function safeCause(cause: unknown): unknown {
     const err = cause as Error
     return { name: err.name, message: err.message }
   }
-  // Anything else is kept only if it survives serialization; a circular object
-  // or a bigint would otherwise make the logging boundary throw.
+  // Keep the cause only if it round-trips to JSON. A circular object throws; a
+  // symbol/function stringifies to `undefined` — both become a marker so the
+  // logging boundary neither throws nor silently drops the cause.
   try {
-    JSON.stringify(cause)
-    return cause
+    const serialized = JSON.stringify(cause)
+    return serialized === undefined ? '[unserializable cause]' : cause
   } catch {
     return '[unserializable cause]'
   }

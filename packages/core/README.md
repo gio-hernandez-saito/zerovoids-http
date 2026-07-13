@@ -87,6 +87,44 @@ pnpm add @zerovoids/http
 
 ## 지금 쓸 수 있는 것
 
+### raw 에러를 정규화
+
+`normalizeError`는 어떤 raw 에러든 하나의 `NormalizedError`로 접습니다. 매퍼를 안 넘겨도
+내장 fallback이 전송 계층 실패(abort · timeout · network)를, 상태를 알면 HTTP 에러를 분류합니다.
+이미 정규화된 에러는 그대로 통과합니다.
+
+```ts
+import { normalizeError } from '@zerovoids/http'
+
+try {
+  const res = await fetch('https://api.example.com/users/1')
+  if (!res.ok) {
+    const body = await res.json().catch(() => null)
+    throw normalizeError(body, { context: { url: res.url, method: 'GET', httpStatus: res.status } })
+  }
+} catch (caught) {
+  // fetch가 던진 network/timeout/cancel도 여기서 분류됩니다
+  const error = normalizeError(caught)
+  console.error(error.kind, error.code, error.retryable)
+}
+```
+
+**벤더 규격은 매퍼 하나로.** 자체 API의 `{ ok: false, error }` 같은 형태도 매퍼를 직접 써서
+바로 흡수할 수 있습니다.
+
+```ts
+import { NormalizedError, normalizeError, type Mapper } from '@zerovoids/http'
+
+const myApi: Mapper = (raw) => {
+  if (typeof raw === 'object' && raw !== null && 'error' in raw) {
+    return new NormalizedError({ kind: 'domain', code: String(raw.error), cause: raw })
+  }
+  return null // 못 알아보면 다음 매퍼로 양보
+}
+
+const error = normalizeError(rawBody, { mappers: [myApi], context: { httpStatus: 400 } })
+```
+
 ### 에러를 하나의 방식으로 분기
 
 `kind`로 갈래를 잡고, 정밀한 판단은 `code`/`httpStatus`로. `assertNeverKind`가 모든 갈래를
@@ -241,22 +279,19 @@ RFC 9457 `type`(URI)과 우리 `code`(토큰)는 의미가 달라 **의도적으
 
 ## 로드맵
 
-> 아래 API는 **아직 구현되지 않았습니다.** 설계 방향을 보이기 위한 스케치입니다.
+러너(`normalizeError`)와 직접 매퍼 작성은 위에서 이미 쓸 수 있습니다. 다음이 예정돼 있습니다:
 
-핵심은 **`NormalizedError`가 고정된 목표, 확장성은 매퍼에 산다**는 것입니다.
+- **프리빌트 벤더 매퍼** — `rfc9457` · `stripe` · `github` · `graphql` · `jsonApi` · `googleRpc` · `genericHttp`
+- **`Retry-After` 파싱** — RFC 9110 헤더를 `retryAfterMs`로 정규화
 
 ```ts
-// 예정: raw 에러 → NormalizedError 변환기
+// 예정: 프리빌트 매퍼로 여러 벤더를 한 번에
 import { normalizeError, rfc9457Mapper, stripeMapper } from '@zerovoids/http'
 
 const error = normalizeError(raw, {
   mappers: [stripeMapper, rfc9457Mapper, myCompanyMapper],
 })
 ```
-
-- **정규화 러너** `normalizeError(raw, { mappers })` — 매퍼 체인(chain of responsibility)
-- **프리빌트 매퍼** — `rfc9457` · `stripe` · `github` · `graphql` · `jsonApi` · `googleRpc` · `genericHttp`
-- **회사 전용 매퍼** — 자체 규격은 매퍼 하나만 작성하면 흡수
 
 어떤 매퍼도 처리하지 못한 정보는 `cause`에 원형으로 남으므로, **아무것도 유실되지 않습니다.**
 
@@ -284,6 +319,7 @@ const error = normalizeError(raw, {
 ```ts
 // 값
 NormalizedError          // 클래스
+normalizeError           // raw → NormalizedError 러너
 isNormalizedError        // 타입 가드 (instanceof + SSR 브랜드)
 isNormalizedErrorKind    // kind로 좁히기
 assertNeverKind          // switch 소진 검사
@@ -294,6 +330,9 @@ NormalizedErrorInit
 NormalizedErrorContext
 NormalizedErrorJSON
 ProblemDetails
+Mapper
+MapperContext
+NormalizeOptions
 ```
 
 ## License

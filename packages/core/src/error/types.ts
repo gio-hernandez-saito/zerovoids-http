@@ -59,7 +59,11 @@ export interface NormalizedErrorInit {
   readonly message?: string
   /** Present for `kind: 'http'` (and often `'domain'`). Mirrors RFC 9457 `status`. */
   readonly httpStatus?: number
-  /** Whether retrying the same request could plausibly succeed. Defaults to `false`. */
+  /**
+   * Whether the failure is of a transient class that could plausibly succeed on
+   * retry. Defaults to `false`. A hint about the *failure* — not a verdict that
+   * auto-retry is safe, which also depends on method idempotency and `Retry-After`.
+   */
   readonly retryable?: boolean
   /**
    * `Retry-After` (RFC 9110), normalized to milliseconds. Mappers MUST NOT set

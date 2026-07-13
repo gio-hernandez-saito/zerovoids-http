@@ -75,6 +75,14 @@ describe('NormalizedError', () => {
     expect(err.toJSON().cause).toBe('[unserializable cause]')
   })
 
+  it('markers a symbol or function cause instead of leaking or dropping it', () => {
+    const withSymbol = new NormalizedError({ kind: 'domain', code: 'x', cause: Symbol('s') })
+    expect(withSymbol.toJSON().cause).toBe('[unserializable cause]')
+
+    const withFunction = new NormalizedError({ kind: 'domain', code: 'x', cause: () => 1 })
+    expect(withFunction.toJSON().cause).toBe('[unserializable cause]')
+  })
+
   it('reduces an Error cause to name+message but keeps plain objects whole', () => {
     const withError = new NormalizedError({ kind: 'http', code: 'x', cause: new TypeError('bad') })
     expect(withError.toJSON().cause).toEqual({ name: 'TypeError', message: 'bad' })
