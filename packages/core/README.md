@@ -6,9 +6,11 @@
 
 클라이언트를 갈아치우지 않고 — `fetch`·`ky`·`axios`·공식 SDK 위에 그대로 얹는 에러 정규화 레이어.
 
+[![npm](https://img.shields.io/npm/v/@zerovoids/http-core)](https://www.npmjs.com/package/@zerovoids/http-core)
+[![CI](https://github.com/gio-hernandez-saito/zerovoids-http/actions/workflows/ci.yml/badge.svg)](https://github.com/gio-hernandez-saito/zerovoids-http/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/gio-hernandez-saito/zerovoids-http/graph/badge.svg)](https://codecov.io/gh/gio-hernandez-saito/zerovoids-http)
 ![zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)
 ![types included](https://img.shields.io/badge/types-included-blue)
-![module](https://img.shields.io/badge/module-ESM%20%2B%20CJS-f7df1e)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 [왜](#왜) · [설치](#설치) · [빠른 시작](#빠른-시작) · [예시](#더-많은-예시) · [표준 근거](#표준-근거) · [API](#api)

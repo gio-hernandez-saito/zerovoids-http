@@ -6,6 +6,10 @@
 
 `@zerovoids/http-*` 패키지 가족의 모노레포.
 
+[![npm](https://img.shields.io/npm/v/@zerovoids/http-core?label=%40zerovoids%2Fhttp-core)](https://www.npmjs.com/package/@zerovoids/http-core)
+[![CI](https://github.com/gio-hernandez-saito/zerovoids-http/actions/workflows/ci.yml/badge.svg)](https://github.com/gio-hernandez-saito/zerovoids-http/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/gio-hernandez-saito/zerovoids-http/graph/badge.svg)](https://codecov.io/gh/gio-hernandez-saito/zerovoids-http)
+
 </div>
 
 ---
