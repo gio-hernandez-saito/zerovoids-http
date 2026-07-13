@@ -75,6 +75,14 @@ describe('rfc9457Mapper', () => {
     expect(error?.code).toBe('tea')
   })
 
+  it('falls back to unknown_error when there is neither a type nor a status', () => {
+    const error = rfc9457Mapper({ title: 'Something went wrong' }, {})
+    expect(error?.kind).toBe('domain')
+    expect(error?.httpStatus).toBeUndefined()
+    expect(error?.code).toBe('unknown_error')
+    expect(error?.message).toBe('Something went wrong')
+  })
+
   it('ignores a non-error or non-integer body status', () => {
     // 200 is not an error status; "418" is a string — both are rejected, leaving no status.
     const error = rfc9457Mapper({ type: '/e/x', status: 200 }, {})
