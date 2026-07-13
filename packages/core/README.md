@@ -1,6 +1,6 @@
 <div align="center">
 
-# @zerovoids/http
+# @zerovoids/http-core
 
 **여러 API의 제각각인 에러를, 하나의 `NormalizedError`로.**
 
@@ -48,7 +48,7 @@
 if (err.response?.data?.errors?.[0]?.code === 'missing_field') { /* ... */ }
 ```
 
-`@zerovoids/http`는 이 모든 실패를 **`kind`로 구분되는 하나의 타입**으로 접습니다.
+`@zerovoids/http-core`는 이 모든 실패를 **`kind`로 구분되는 하나의 타입**으로 접습니다.
 어떤 벤더·트랜스포트·검증기에서 왔든, 소비자가 보는 에러의 모양은 항상 같습니다.
 
 ## 무엇을
@@ -73,13 +73,13 @@ raw 에러 (어떤 벤더/표준이든)  ──[ mapper ]──▶  NormalizedEr
 | API 하나만, 에러 규격도 단순 | 네이티브 `fetch`, [`ky`](https://github.com/sindresorhus/ky), [`axios`](https://axios-http.com) |
 | OpenAPI 스펙 보유 | [openapi-fetch](https://openapi-ts.dev/openapi-fetch/), [Orval](https://orval.dev), [Kubb](https://kubb.dev) |
 | 전 레이어를 내가 소유 + full-stack TS | [tRPC](https://trpc.io), [oRPC](https://orpc.unnoq.com) |
-| **여러 외부 벤더 혼용 + 에러 규격 제각각** | **`@zerovoids/http`** |
-| **벤더 에러를 도메인 에러로 일관되게 다뤄야** | **`@zerovoids/http`** |
+| **여러 외부 벤더 혼용 + 에러 규격 제각각** | **`@zerovoids/http-core`** |
+| **벤더 에러를 도메인 에러로 일관되게 다뤄야** | **`@zerovoids/http-core`** |
 
 ## 설치
 
 ```bash
-pnpm add @zerovoids/http
+pnpm add @zerovoids/http-core
 ```
 
 - 런타임 의존성 **0개** · 코어 5KB 미만 · ESM + CJS · 타입 포함
@@ -94,7 +94,7 @@ pnpm add @zerovoids/http
 이미 정규화된 에러는 그대로 통과합니다.
 
 ```ts
-import { normalizeError } from '@zerovoids/http'
+import { normalizeError } from '@zerovoids/http-core'
 
 try {
   const res = await fetch('https://api.example.com/users/1')
@@ -113,7 +113,7 @@ try {
 바로 흡수할 수 있습니다.
 
 ```ts
-import { NormalizedError, normalizeError, type Mapper } from '@zerovoids/http'
+import { NormalizedError, normalizeError, type Mapper } from '@zerovoids/http-core'
 
 const myApi: Mapper = (raw) => {
   if (typeof raw === 'object' && raw !== null && 'error' in raw) {
@@ -135,7 +135,7 @@ import {
   assertNeverKind,
   isNormalizedErrorKind,
   type NormalizedError,
-} from '@zerovoids/http'
+} from '@zerovoids/http-core'
 
 function toMessage(error: NormalizedError): string {
   switch (error.kind) {
@@ -171,7 +171,7 @@ if (isNormalizedErrorKind(someError, 'timeout')) {
 프리빌트 매퍼가 나오기 전에도, 벤더 에러를 직접 정규화할 수 있습니다.
 
 ```ts
-import { NormalizedError } from '@zerovoids/http'
+import { NormalizedError } from '@zerovoids/http-core'
 
 // 예: 429 응답을 정규화
 throw new NormalizedError({
@@ -220,7 +220,7 @@ logger.error(error.toJSON())
 SSR로 직렬화됐다 복원된 에러도 타입 가드가 인식합니다.
 
 ```ts
-import { isNormalizedError } from '@zerovoids/http'
+import { isNormalizedError } from '@zerovoids/http-core'
 
 const restored = JSON.parse(payload)
 if (isNormalizedError(restored)) {
@@ -286,7 +286,7 @@ RFC 9457 `type`(URI)과 우리 `code`(토큰)는 의미가 달라 **의도적으
 
 ```ts
 // 예정: 프리빌트 매퍼로 여러 벤더를 한 번에
-import { normalizeError, rfc9457Mapper, stripeMapper } from '@zerovoids/http'
+import { normalizeError, rfc9457Mapper, stripeMapper } from '@zerovoids/http-core'
 
 const error = normalizeError(raw, {
   mappers: [stripeMapper, rfc9457Mapper, myCompanyMapper],

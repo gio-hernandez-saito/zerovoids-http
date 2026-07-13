@@ -1,5 +1,5 @@
 {
-  "name": "@zerovoids/http",
+  "name": "@zerovoids/http-core",
   "version": "0.0.0",
   "description": "Vendor-normalizing HTTP layer — normalize errors from many APIs into one type",
   "keywords": [
