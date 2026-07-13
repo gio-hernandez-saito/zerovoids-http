@@ -30,15 +30,14 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm turbo build
-      # Publishing is intentionally deferred until the first release: add
-      #   publish: pnpm changeset publish
-      # back (with NPM_CONFIG_PROVENANCE: true in env) once the npm OIDC trusted
-      # publisher is registered for this repo. Until then this only opens the
-      # "Version Packages" PR — it never attempts to publish 0.0.0.
+      # With changesets present, opens/updates the Version Packages PR; merging that
+      # publishes to npm via OIDC trusted publishing (no NPM_TOKEN). No changesets → no-op.
       - uses: changesets/action@v1
         with:
           version: pnpm changeset version
+          publish: pnpm changeset publish
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

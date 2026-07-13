@@ -18,8 +18,8 @@
 ---
 
 > [!NOTE]
-> **0.x 초기 단계입니다.** `normalizeError` 러너, 내장 fallback, `rfc9457Mapper`, `Retry-After` 파싱은
-> 지금 바로 쓸 수 있습니다. 공개 API는 `1.0.0` 전까지 바뀔 수 있고, 아직 npm에 배포되지 않았습니다.
+> **0.x 초기 단계입니다.** `normalizeError` 러너, 내장 fallback, `rfc9457Mapper`(표준), `stripeMapper`(벤더),
+> `Retry-After` 파싱을 지금 바로 쓸 수 있습니다. 공개 API는 `1.0.0` 전까지 바뀔 수 있습니다.
 
 ## 왜
 
