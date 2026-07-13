@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  push:
+    branches: [main] # gives Codecov an accurate main baseline + validates main
   pull_request:
     branches: [main]
 
@@ -67,6 +69,8 @@ jobs:
 
   pr-title:
     name: PR title
+    # PR-only — there is no PR title to validate on a push to main.
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - uses: amannn/action-semantic-pull-request@v6
