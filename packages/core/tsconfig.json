@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // The HTTP layer is runtime-agnostic: it targets the web platform globals
+    // (fetch, Headers, Request/Response, AbortSignal, crypto, TextDecoder) via
+    // the DOM lib, but pulls in no Node-specific globals (`types: []`), so it
+    // stays correct in browsers, workers, edge, and Node 22+ alike.
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": []
+  },
+  "include": ["src"]
+}
