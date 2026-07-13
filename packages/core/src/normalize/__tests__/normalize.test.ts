@@ -128,6 +128,17 @@ describe('normalizeError', () => {
       expect(result.httpStatus).toBe(503)
       expect(result.context).toBeUndefined()
     })
+
+    it('reads Retry-After into retryAfterMs, but only for a retryable status', () => {
+      const headers = new Headers({ 'retry-after': '30' })
+
+      const retryable = normalizeError(null, { context: { httpStatus: 503, headers } })
+      expect(retryable.retryable).toBe(true)
+      expect(retryable.retryAfterMs).toBe(30_000)
+
+      const notRetryable = normalizeError(null, { context: { httpStatus: 400, headers } })
+      expect(notRetryable.retryAfterMs).toBeUndefined()
+    })
   })
 
   it('lets a mapper claim a signal the built-in fallback would also catch', () => {

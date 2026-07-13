@@ -10,6 +10,8 @@ export interface MapperContext {
   readonly requestId?: string
   /** The response status, when a response was actually received. */
   readonly httpStatus?: number
+  /** The response headers, used e.g. to read `Retry-After`. */
+  readonly headers?: Headers
 }
 
 /**

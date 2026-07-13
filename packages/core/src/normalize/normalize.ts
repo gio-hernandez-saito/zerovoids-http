@@ -1,6 +1,7 @@
 import { isNormalizedError } from '../error/guards.js'
 import { NormalizedError } from '../error/normalized-error.js'
 import type { NormalizedErrorContext, NormalizedErrorKind } from '../error/types.js'
+import { parseRetryAfter } from '../http/retry-after.js'
 import type { Mapper, MapperContext } from './mapper.js'
 
 /** Options for {@link normalizeError}. */
@@ -125,11 +126,13 @@ function fallback(raw: unknown, context: MapperContext): NormalizedError {
     context.httpStatus <= 599
   ) {
     const status = context.httpStatus
+    const retryable = RETRYABLE_STATUS.has(status)
     return new NormalizedError({
       kind: 'http',
       code: `http_${status}`,
       httpStatus: status,
-      retryable: RETRYABLE_STATUS.has(status),
+      retryable,
+      retryAfterMs: retryable ? parseRetryAfter(context.headers?.get('retry-after')) : undefined,
       cause: raw,
       context: errContext,
     })

@@ -14,6 +14,7 @@ export type {
   NormalizedErrorKind,
   ProblemDetails,
 } from './error/types.js'
+export { parseRetryAfter } from './http/retry-after.js'
 export type { Mapper, MapperContext } from './normalize/mapper.js'
 export type { NormalizeOptions } from './normalize/normalize.js'
 export { normalizeError } from './normalize/normalize.js'
