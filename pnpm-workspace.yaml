@@ -4,8 +4,5 @@ packages:
 
 # Approve build scripts for trusted dependencies (pnpm 11+).
 allowBuilds:
+  esbuild: true # size-limit → esbuild installs its platform binary
   lefthook: true
-
-# Shared dependency versions — single source of truth across all packages.
-# Add entries with `pnpm add <pkg> --save-catalog`.
-catalog: {}
