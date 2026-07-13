@@ -19,6 +19,11 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    # lefthook git hooks are for local dev. The changesets bot commits the version
+    # bump on a `changeset-release/main` branch, which our branch-name hook rejects —
+    # disable hooks for this job so the automated commit isn't blocked.
+    env:
+      LEFTHOOK: "0"
     steps:
       - uses: actions/checkout@v7
         with:
