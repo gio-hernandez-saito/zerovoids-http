@@ -81,6 +81,17 @@ describe('stripeMapper', () => {
     expect(error?.message).toBe('api_error')
   })
 
+  it('falls back to http_<status> when both code and type are empty', () => {
+    const error = stripeMapper({ error: { type: '', code: '' } }, { httpStatus: 500 })
+    expect(error?.code).toBe('http_500')
+  })
+
+  it('falls back to unknown_error when there is no usable code and no status', () => {
+    const error = stripeMapper({ error: { type: '' } }, {})
+    expect(error?.code).toBe('unknown_error')
+    expect(error?.kind).toBe('domain')
+  })
+
   describe('recognition (returns null to defer)', () => {
     it.each([
       ['a primitive', 'boom'],
