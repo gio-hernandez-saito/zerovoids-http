@@ -16,5 +16,6 @@ export type {
 } from './error/types.js'
 export { parseRetryAfter } from './http/retry-after.js'
 export type { Mapper, MapperContext } from './normalize/mapper.js'
+export { rfc9457Mapper } from './normalize/mappers/rfc9457.js'
 export type { NormalizeOptions } from './normalize/normalize.js'
 export { normalizeError } from './normalize/normalize.js'

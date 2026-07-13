@@ -1,7 +1,9 @@
 import { isNormalizedError } from '../error/guards.js'
 import { NormalizedError } from '../error/normalized-error.js'
-import type { NormalizedErrorContext, NormalizedErrorKind } from '../error/types.js'
+import type { NormalizedErrorKind } from '../error/types.js'
 import { parseRetryAfter } from '../http/retry-after.js'
+import { isHttpErrorStatus, isRetryableStatus } from '../http/status.js'
+import { toErrorContext } from './context.js'
 import type { Mapper, MapperContext } from './mapper.js'
 
 /** Options for {@link normalizeError}. */
@@ -11,21 +13,6 @@ export interface NormalizeOptions {
   /** What the caller knows about the failed request. */
   readonly context?: MapperContext
 }
-
-/**
- * A coarse allowlist of HTTP statuses commonly treated as *transient*. This is a
- * CONVENTION, not a standard: it mirrors Google Cloud Storage's retry list
- * (408, 429, 500, 502, 503, 504) plus Cloudflare's origin 5xx (520–524, documented
- * by Cloudflare as retryable). RFC 9110 gives only 503 explicit "temporary" wording;
- * 501 and 505 are excluded as RFC-permanent.
- *
- * It marks a failure's *class* only. Deciding to actually retry additionally
- * requires an idempotent method (RFC 9110 §9.2.2) or an idempotency key, and should
- * honor `Retry-After`. Used only on the fallback path — a vendor mapper can override.
- */
-const RETRYABLE_STATUS: ReadonlySet<number> = new Set([
-  408, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524,
-])
 
 /**
  * Substrings of the `TypeError.message` that `fetch` throws on a network failure,
@@ -119,14 +106,9 @@ function fallback(raw: unknown, context: MapperContext): NormalizedError {
 
   // If a response arrived, its status is the authoritative signal — checked
   // before the TypeError branch so a post-response TypeError isn't called network.
-  if (
-    context.httpStatus !== undefined &&
-    Number.isInteger(context.httpStatus) &&
-    context.httpStatus >= 400 &&
-    context.httpStatus <= 599
-  ) {
+  if (isHttpErrorStatus(context.httpStatus)) {
     const status = context.httpStatus
-    const retryable = RETRYABLE_STATUS.has(status)
+    const retryable = isRetryableStatus(status)
     return new NormalizedError({
       kind: 'http',
       code: `http_${status}`,
@@ -194,11 +176,4 @@ function stringProp(value: unknown, key: 'name' | 'message'): string | undefined
   if (typeof value !== 'object' || value === null) return undefined
   const property = (value as Record<string, unknown>)[key]
   return typeof property === 'string' ? property : undefined
-}
-
-function toErrorContext(ctx: MapperContext): NormalizedErrorContext | undefined {
-  if (ctx.url === undefined && ctx.method === undefined && ctx.requestId === undefined) {
-    return undefined
-  }
-  return { url: ctx.url, method: ctx.method, requestId: ctx.requestId }
 }
