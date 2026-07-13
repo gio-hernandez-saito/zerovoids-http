@@ -1,6 +1,6 @@
 {
   "name": "@zerovoids/http-core",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "description": "Vendor-normalizing HTTP layer — normalize errors from many APIs into one type",
   "keywords": [
     "http",
@@ -49,8 +49,7 @@
     }
   ],
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "scripts": {
     "build": "tsdown",
