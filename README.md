@@ -25,7 +25,7 @@
 
 | 패키지 | 설명 |
 |---|---|
-| [`@zerovoids/http-core`](./packages/core) | 에러 정규화 코어 — `NormalizedError` 계약, `normalizeError` 러너, `rfc9457Mapper`, 타입 가드 |
+| [`@zerovoids/http-core`](./packages/core) | 에러 정규화 코어 — `NormalizedError` 계약, `normalizeError` 러너, 프리빌트 매퍼(RFC 9457 · Stripe · GraphQL), 타입 가드 |
 
 `-core`는 가족의 base입니다. 벤더 매퍼·재시도 같은 확장은 실제 필요가 생길 때 형제 패키지로 자라납니다
 ([@babel/core 모델](https://www.npmjs.com/package/@babel/core)). 사용법은 **[코어 README](./packages/core#readme)** 를 참고하세요.
