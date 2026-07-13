@@ -36,8 +36,10 @@ jobs:
         run: pnpm turbo size
       - name: Dead code / deps
         run: pnpm knip
-      - name: Changeset present
-        run: pnpm changeset status --since=origin/main
+      # Changeset enforcement (`changeset status --since=origin/main`) is deferred
+      # until the first release: pre-1.0 the package is unpublished and publishing
+      # is off, so requiring a releasing changeset on every packages/* change (even
+      # tooling like vitest.config.ts) is premature. Re-add it at the first 0.2.0 release.
 
   test:
     name: Test (Node ${{ matrix.node }})
@@ -54,7 +56,14 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm turbo test
+      - run: pnpm --filter @zerovoids/http-core test:coverage
+      - name: Upload coverage to Codecov
+        if: ${{ matrix.node == 24 }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: gio-hernandez-saito/zerovoids-http
+          fail_ci_if_error: false
 
   pr-title:
     name: PR title
