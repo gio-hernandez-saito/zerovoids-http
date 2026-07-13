@@ -1,0 +1,24 @@
+pre-commit:
+  parallel: true
+  commands:
+    branch-name:
+      run: |
+        branch=$(git symbolic-ref --short HEAD 2>/dev/null || echo main)
+        [ "$branch" = "main" ] && exit 0
+        echo "$branch" | grep -qE '^(feat|fix|docs|refactor|perf|test|chore|ci|build|revert)\/[a-z0-9._-]+$' \
+          || { echo "❌ Invalid branch name: $branch"; echo "   Use <type>/<kebab>  e.g. feat/normalized-error"; exit 1; }
+    biome:
+      glob: "*.{js,ts,json,jsonc}"
+      run: pnpm biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+
+pre-push:
+  parallel: true
+  commands:
+    typecheck:
+      run: pnpm turbo typecheck
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit {1}

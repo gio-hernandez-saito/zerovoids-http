@@ -1,0 +1,10 @@
+{
+  // Root config for editors only. Each package has its own tsconfig that extends
+  // the base and points at its own src/. `turbo typecheck` runs those, not this.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [],
+  "files": []
+}

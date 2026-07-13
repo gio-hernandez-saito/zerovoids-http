@@ -1,0 +1,9 @@
+# Normalize line endings to LF on checkin, regardless of OS.
+* text=auto eol=lf
+
+# Lockfile is generated — don't diff it, don't count it in language stats,
+# and prefer a clean regenerate over line-by-line merges.
+pnpm-lock.yaml linguist-generated=true -diff merge=binary
+
+# Changesets appends to CHANGELOGs from many branches — union avoids conflicts.
+CHANGELOG.md merge=union

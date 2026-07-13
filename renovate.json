@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "schedule": ["every weekend"],
+  "packageRules": [
+    {
+      "description": "Auto-merge safe dev-dependency updates once CI passes",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "description": "Major updates always require manual review",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
+      "description": "Hold TypeScript on 5.x until a deliberate migration to 7 (Go native)",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<6"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+.turbo/
+*.tsbuildinfo
+
+# testing / coverage
+coverage/
+
+# env
+.env
+.env*.local
+
+# local tooling state
+.omc/
+.claude/settings.local.json
+
+# ide / editor
+.vscode/
+.idea/
+*.swp
+
+# os
+.DS_Store
+*.log
