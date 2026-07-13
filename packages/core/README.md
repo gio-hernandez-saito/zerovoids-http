@@ -18,8 +18,8 @@
 ---
 
 > [!NOTE]
-> **0.x 초기 단계입니다.** `normalizeError` 러너, 내장 fallback, `rfc9457Mapper`(표준), `stripeMapper`(벤더),
-> `Retry-After` 파싱을 지금 바로 쓸 수 있습니다. 공개 API는 `1.0.0` 전까지 바뀔 수 있습니다.
+> **0.x 초기 단계입니다.** `normalizeError` 러너, 내장 fallback, `rfc9457Mapper`(표준), `stripeMapper`·
+> `graphqlMapper`(벤더), `Retry-After` 파싱을 지금 바로 쓸 수 있습니다. 공개 API는 `1.0.0` 전까지 바뀔 수 있습니다.
 
 ## 왜
 
@@ -269,9 +269,9 @@ RFC 9457 `type`(URI)과 우리 `code`(토큰)는 의미가 달라 **의도적으
 ## 로드맵
 
 지금 쓸 수 있는 것: `normalizeError` 러너 + 내장 fallback(전송 실패·제네릭 HTTP), `rfc9457Mapper`(표준),
-`stripeMapper`(벤더), `Retry-After` 파싱, `NormalizedError` 계약과 타입 가드. 다음이 예정돼 있습니다:
+`stripeMapper`·`graphqlMapper`(벤더), `Retry-After` 파싱, `NormalizedError` 계약과 타입 가드. 다음이 예정돼 있습니다:
 
-- **프리빌트 벤더 매퍼 추가** — `github` · `graphql` 등. 실제 필요가 생길 때 같은 틀로 추가됩니다.
+- **프리빌트 벤더 매퍼 추가** — `github` 등. 실제 필요가 생길 때 같은 틀로 추가됩니다.
 
 어떤 매퍼도 처리하지 못한 정보는 `cause`에 원형으로 남으므로, **아무것도 유실되지 않습니다.**
 
@@ -283,6 +283,7 @@ import {
   normalizeError, // raw → NormalizedError 러너
   rfc9457Mapper, // application/problem+json 매퍼 (표준)
   stripeMapper, // Stripe 에러 매퍼 (벤더)
+  graphqlMapper, // GraphQL 에러 매퍼 (벤더)
   parseRetryAfter, // Retry-After → ms
   isNormalizedError, // 타입 가드 (instanceof + SSR 브랜드)
   isNormalizedErrorKind, // kind로 좁히기
