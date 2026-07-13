@@ -1,0 +1,51 @@
+name: Changeset Draft (Claude)
+
+# When a publishable package under packages/* changes but the PR has no changeset,
+# draft a spec-compliant changeset for human review. Runs only when packages change.
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - "packages/**"
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: changeset-ai-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changeset:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Draft a Changesets entry for this PR in the zerovoids-http monorepo.
+
+            1. `git fetch origin main`, then list changed files: `git diff --name-only origin/main...HEAD`.
+            2. If NO files under `packages/*` changed → do nothing and exit.
+            3. If any `packages/*` changed, check `.changeset/` for an existing unreleased changeset
+               (a `*.md` other than `README.md`). If one already exists → do nothing and exit.
+            4. Otherwise create ONE file `.changeset/<kebab-slug>.md` with:
+               ---
+               "<package-npm-name>": <patch|minor|major>
+               ---
+               <concise consumer-facing summary>
+               - Use the package's npm `name` from its package.json (e.g. "@zerovoids/http-core"),
+                 NOT the folder path. List each changed package on its own frontmatter line.
+               - Bump conservatively: pre-1.0, breaking changes are `minor`; anything a consumer
+                 could notice is at least `patch`. Tooling-only changes with no consumer impact
+                 (devDeps, CI, size-limit config) → use `changeset add --empty` instead.
+            5. Commit the changeset to the PR branch. Do NOT touch any CHANGELOG.md.
+            6. Leave a short PR comment noting the changeset is a DRAFT whose bump level needs human review.
+          claude_args: "--model claude-sonnet-5 --max-turns 10 --allowedTools Read,Write,Edit,Bash"

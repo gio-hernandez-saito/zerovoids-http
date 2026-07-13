@@ -1,0 +1,50 @@
+name: PR Autofill (Claude)
+
+# On PR open: normalize the title to Conventional Commits and fill the body from
+# our template, only if they aren't already correct. Triggers on `opened`/`reopened`
+# only (editing the PR would otherwise re-trigger this workflow in a loop).
+on:
+  pull_request:
+    types: [opened, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: pr-autofill-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  autofill:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Finalize this pull request for the zerovoids-http monorepo.
+
+            1. Read the branch commits (`git log origin/main..HEAD`) and the diff.
+            2. TITLE — if the PR title is NOT already valid Conventional Commits, rewrite it as
+               `<type>(<scope>): <subject>` (imperative, lowercase, no trailing period).
+               - type ∈ feat, fix, docs, refactor, perf, test, chore, ci, build, revert
+               - scope ∈ core, deps, repo, release, ci
+               If it is already valid, leave it unchanged.
+            3. BODY — if the PR body is empty or does not follow the template, set it to:
+               ## Summary
+               <1-2 sentences: what changed and why>
+               ## Changes
+               - <key changes>
+               ## Testing
+               - <how it was / should be verified>
+               ## Changeset
+               - <"included" if a new .changeset/*.md exists in this PR, else "not needed (no packages/* change)">
+               If it already follows the template, leave it unchanged.
+            4. Apply changes with `gh pr edit`. Do NOT modify any source code.
+          claude_args: "--model claude-sonnet-5 --max-turns 6"
