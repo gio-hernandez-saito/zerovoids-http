@@ -61,7 +61,7 @@ jobs:
       - run: pnpm --filter @zerovoids/http-core test:coverage
       - name: Upload coverage to Codecov
         if: ${{ matrix.node == 24 }}
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: gio-hernandez-saito/zerovoids-http
