@@ -40,7 +40,7 @@ jobs:
       - run: pnpm turbo build
       # With changesets present, opens/updates the Version Packages PR; merging that
       # publishes to npm via OIDC trusted publishing (no NPM_TOKEN). No changesets → no-op.
-      - uses: changesets/action@v1
+      - uses: changesets/action@v2.1.1
         with:
           version: pnpm changeset version
           publish: pnpm changeset publish
