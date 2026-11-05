@@ -63,10 +63,10 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@size-limit/preset-small-lib": "^13.0.0",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^5.0.0",
     "publint": "^0.3.21",
     "size-limit": "^13.0.0",
     "tsdown": "^0.23.0",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.0"
   }
 }
