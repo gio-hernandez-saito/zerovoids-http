@@ -25,7 +25,7 @@ importers:
         version: 21.2.3
       knip:
         specifier: ^6.26.0
-        version: 6.45.1
+        version: 6.48.0
       lefthook:
         specifier: ^2.1.10
         version: 2.2.2
@@ -1560,8 +1560,8 @@ packages:
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
 
-  knip@6.45.1:
-    resolution: {integrity: sha512-zp3zXKy2cZWiIttdlWU5fisKxVQaLSU6471ej0KGz1GdHdaHxpzTAO/LIyFNc3gU3v1W7LJaqvYumoO3l/u+6A==}
+  knip@6.48.0:
+    resolution: {integrity: sha512-v+Gfp6uiOeXaaj+Khk2Z7/fTTZYWLnDwxZapQUyy8WoQFLYXiUHXqRdFJTwRnrKNA1gPXTPi5NGTKKLXyImVrg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -2132,8 +2132,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  unbash@6.0.4:
-    resolution: {integrity: sha512-t3OptUArewg9OpYGDskTSlxhyLDahfmZ4d36hE44Efb1y3HRLLpzsVqwH+AwBVymP4t7pP71xN+nnduudn2awA==}
+  unbash@6.0.5:
+    resolution: {integrity: sha512-5P8o+nYRueKpHxmemofYqZRZCSWAi+Tqy31MQS8l/sT54Z+Axn55N9CnWPo19BxxJD4wYYf6RqlcURhWkrFXew==}
     engines: {node: '>=14'}
 
   unconfig-core@7.5.0:
@@ -3606,7 +3606,7 @@ snapshots:
     optionalDependencies:
       graceful-fs: 4.2.11
 
-  knip@6.45.1:
+  knip@6.48.0:
     dependencies:
       formatly: 0.11.4
       get-tsconfig: 4.14.3
@@ -3617,7 +3617,7 @@ snapshots:
       smol-toml: 1.9.1
       strip-json-comments: 5.0.3
       tinyglobby: 0.2.17
-      unbash: 6.0.4
+      unbash: 6.0.5
       yaml: 2.9.1
 
   lefthook-android-arm64@2.2.2:
@@ -4152,7 +4152,7 @@ snapshots:
 
   typescript@5.9.3: {}
 
-  unbash@6.0.4: {}
+  unbash@6.0.5: {}
 
   unconfig-core@7.5.0:
     dependencies:
